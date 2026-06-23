@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Stack principal responsável por orquestrar os componentes
+  da infraestrutura através de Nested Stacks.
+
+Parameters:
+
+  TemplateBucketURL:
+    Description: URL do bucket S3 contendo os templates
+    Type: String
+
+Resources:
+
+  NetworkStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/network-stack.yaml"
+
+  FirewallStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/firewall-stack.yaml"
+
+  StorageStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/storage-stack.yaml"
+
+  IAMStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/iam-stack.yaml"
+
+  MonitoringStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/monitoring-stack.yaml"
+
+  SNSStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/sns-stack.yaml"
+
+  LoadBalancerStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/loadbalancer-stack.yaml"
+
+  AutoScalingStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/autoscaling-stack.yaml"
+
+  DatabaseStack:
+
+    Type: AWS::CloudFormation::Stack
+
+    Properties:
+
+      TemplateURL: !Sub "${TemplateBucketURL}/database-stack.yaml"
+
+Outputs:
+
+  NetworkStackId:
+    Description: ID da stack de rede
+    Value: !Ref NetworkStack
+
+  DatabaseStackId:
+    Description: ID da stack de banco de dados
+    Value: !Ref DatabaseStack
+
+  AutoScalingStackId:
+    Description: ID da stack de Auto Scaling
+    Value: !Ref AutoScalingStack
+
+  LoadBalancerStackId:
+    Description: ID da stack do Application Load Balancer
+    Value: !Ref LoadBalancerStack
