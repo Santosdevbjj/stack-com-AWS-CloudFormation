@@ -463,5 +463,145 @@ Seguindo seu padrão dos pipes:
 
 Provisionamento manual de infraestrutura gera erros e falta de padronização | Automação de recursos AWS utilizando CloudFormation e Infrastructure as Code | Ambientes reproduzíveis, seguros e escaláveis
 
+---
+
+A pasta templates/ deve seguir uma abordagem profissional de Infrastructure as Code, permitindo reutilização e separação entre o template e os valores dos parâmetros. O arquivo parameters.json servirá para alimentar os templates webserver-stack.yaml e firewall-stack.yaml, facilitando mudanças de ambiente sem alterar o código da infraestrutura.
+
+📂 templates/parameters.json
+
+[
+  {
+    "ParameterKey": "LatestAmiId",
+    "ParameterValue": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  },
+  {
+    "ParameterKey": "InstanceType",
+    "ParameterValue": "t2.micro"
+  },
+  {
+    "ParameterKey": "MyIP",
+    "ParameterValue": "0.0.0.0/0"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-xxxxxxxx"
+  },
+  {
+    "ParameterKey": "SubnetId",
+    "ParameterValue": "subnet-xxxxxxxx"
+  },
+  {
+    "ParameterKey": "KeyName",
+    "ParameterValue": "my-keypair"
+  },
+  {
+    "ParameterKey": "Environment",
+    "ParameterValue": "dev"
+  },
+  {
+    "ParameterKey": "ProjectName",
+    "ParameterValue": "cloudformation-lab"
+  },
+  {
+    "ParameterKey": "SSHLocation",
+    "ParameterValue": "203.0.113.10/32"
+  },
+  {
+    "ParameterKey": "HTTPPort",
+    "ParameterValue": "80"
+  },
+  {
+    "ParameterKey": "HTTPSPort",
+    "ParameterValue": "443"
+  },
+  {
+    "ParameterKey": "SSHPort",
+    "ParameterValue": "22"
+  },
+  {
+    "ParameterKey": "AllowedCIDR",
+    "ParameterValue": "0.0.0.0/0"
+  }
+]
+
+
+---
+
+Estrutura esperada da pasta templates
+
+templates/
+│
+├── webserver-stack.yaml
+├── firewall-stack.yaml
+└── parameters.json
+
+
+---
+
+Objetivo dos parâmetros
+
+Parâmetro	Finalidade
+
+LatestAmiId	Recupera automaticamente a AMI Amazon Linux 2 mais recente
+InstanceType	Tipo da instância EC2
+MyIP	Faixa de IP permitida para acesso HTTP
+VpcId	VPC onde os recursos serão criados
+SubnetId	Sub-rede utilizada pela EC2
+KeyName	Chave SSH para acesso à instância
+Environment	Ambiente (dev, test, prod)
+ProjectName	Nome do projeto
+SSHLocation	IP autorizado para SSH
+HTTPPort	Porta HTTP
+HTTPSPort	Porta HTTPS
+SSHPort	Porta SSH
+AllowedCIDR	Intervalo CIDR permitido
+
+
+
+---
+
+Exemplo de utilização
+
+AWS CLI
+
+aws cloudformation create-stack \
+  --stack-name MyTestStack \
+  --template-body file://templates/webserver-stack.yaml \
+  --parameters file://templates/parameters.json
+
+Atualização da Stack
+
+aws cloudformation update-stack \
+  --stack-name MyTestStack \
+  --template-body file://templates/webserver-stack.yaml \
+  --parameters file://templates/parameters.json
+
+Exclusão da Stack
+
+aws cloudformation delete-stack \
+  --stack-name MyTestStack
+
+Esse parameters.json foi pensado em nível profissional (FAANG), permitindo evolução futura para:
+
+Multiambiente (dev, homolog, prod);
+
+Nested Stacks;
+
+CI/CD com GitHub Actions;
+
+AWS CodePipeline;
+
+StackSets;
+
+Múltiplas regiões;
+
+Infraestrutura escalável e reutilizável. 
+
+
+
+
+---
+
+
 
 
