@@ -10,6 +10,8 @@ Documentação de nível Open Source
 
 Estrutura do repositório
 
+```
+
 stack-com-AWS-CloudFormation/
 │
 ├── README.md
@@ -56,6 +58,8 @@ stack-com-AWS-CloudFormation/
       ├── banner.png
       └── aws-cloudformation-logo.png
 
+
+```
 
 ---
 
