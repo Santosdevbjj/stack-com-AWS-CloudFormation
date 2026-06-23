@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Criação de um tópico SNS para envio de notificações e alertas.
+
+Parameters:
+
+  EmailAddress:
+    Description: Endereço de e-mail para receber notificações
+    Type: String
+
+Resources:
+
+  AlertTopic:
+
+    Type: AWS::SNS::Topic
+
+    Properties:
+
+      TopicName: CloudFormationLabAlerts
+
+      Tags:
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+        - Key: Environment
+          Value: Development
+
+  EmailSubscription:
+
+    Type: AWS::SNS::Subscription
+
+    Properties:
+
+      Endpoint: !Ref EmailAddress
+
+      Protocol: email
+
+      TopicArn: !Ref AlertTopic
+
+Outputs:
+
+  TopicArn:
+    Description: ARN do tópico SNS
+    Value: !Ref AlertTopic
+
+  TopicName:
+    Description: Nome do tópico SNS
+    Value: CloudFormationLabAlerts
