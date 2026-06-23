@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Monitoramento da instância EC2 através do Amazon CloudWatch.
+
+Parameters:
+
+  InstanceId:
+    Description: ID da instância EC2 monitorada
+    Type: String
+
+Resources:
+
+  HighCPUAlarm:
+
+    Type: AWS::CloudWatch::Alarm
+
+    Properties:
+
+      AlarmName: HighCPUAlarm
+
+      AlarmDescription: Alerta quando CPU ultrapassar 80%
+
+      Namespace: AWS/EC2
+
+      MetricName: CPUUtilization
+
+      Statistic: Average
+
+      Period: 300
+
+      EvaluationPeriods: 1
+
+      Threshold: 80
+
+      ComparisonOperator: GreaterThanThreshold
+
+      Dimensions:
+
+        - Name: InstanceId
+          Value: !Ref InstanceId
+
+      TreatMissingData: notBreaching
+
+      Tags:
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+        - Key: Environment
+          Value: Development
+
+Outputs:
+
+  AlarmName:
+    Description: Nome do CloudWatch Alarm
+    Value: !Ref HighCPUAlarm
