@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Criação de bucket S3 com versionamento, criptografia e
+  bloqueio de acesso público.
+
+Parameters:
+
+  BucketName:
+    Description: Nome do bucket S3
+    Type: String
+    Default: cloudformation-lab-bucket
+
+Resources:
+
+  StorageBucket:
+
+    Type: AWS::S3::Bucket
+
+    Properties:
+
+      BucketName: !Ref BucketName
+
+      VersioningConfiguration:
+        Status: Enabled
+
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+
+      Tags:
+
+        - Key: Name
+          Value: StorageBucket
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+        - Key: Environment
+          Value: Development
+
+Outputs:
+
+  BucketName:
+    Description: Nome do bucket criado
+    Value: !Ref StorageBucket
+
+  BucketArn:
+    Description: ARN do bucket
+    Value: !GetAtt StorageBucket.Arn
