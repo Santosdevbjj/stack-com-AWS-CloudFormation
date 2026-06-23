@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Web Server Stack
+
+Parameters:
+
+  InstanceType:
+    Type: String
+    Default: t2.micro
+
+Resources:
+
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTP access
+
+      SecurityGroupIngress:
+
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  WebServer:
+
+    Type: AWS::EC2::Instance
+
+    Properties:
+
+      ImageId: ami-id
+
+      InstanceType: !Ref InstanceType
+
+      SecurityGroupIds:
+        - !Ref WebServerSecurityGroup
+
+Outputs:
+
+  InstanceId:
+
+    Value: !Ref WebServer
