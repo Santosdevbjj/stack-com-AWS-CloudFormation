@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Application Load Balancer para distribuição de tráfego.
+
+Parameters:
+
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet::Id
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet::Id
+
+Resources:
+
+  ALBSecurityGroup:
+
+    Type: AWS::EC2::SecurityGroup
+
+    Properties:
+
+      GroupDescription: Security Group do Application Load Balancer
+
+      VpcId: !Ref VpcId
+
+      SecurityGroupIngress:
+
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  ApplicationLoadBalancer:
+
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+
+    Properties:
+
+      Name: CloudFormationALB
+
+      Scheme: internet-facing
+
+      Type: application
+
+      SecurityGroups:
+
+        - !Ref ALBSecurityGroup
+
+      Subnets:
+
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+
+      Tags:
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+  TargetGroup:
+
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+
+    Properties:
+
+      Name: WebTargetGroup
+
+      Port: 80
+
+      Protocol: HTTP
+
+      VpcId: !Ref VpcId
+
+      TargetType: instance
+
+      HealthCheckPath: /
+
+  Listener:
+
+    Type: AWS::ElasticLoadBalancingV2::Listener
+
+    Properties:
+
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+
+      Port: 80
+
+      Protocol: HTTP
+
+      DefaultActions:
+
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+
+  LoadBalancerDNS:
+
+    Description: DNS do Application Load Balancer
+
+    Value: !GetAtt ApplicationLoadBalancer.DNSName
+
+  TargetGroupArn:
+
+    Description: ARN do Target Group
+
+    Value: !Ref TargetGroup
