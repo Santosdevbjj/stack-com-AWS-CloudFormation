@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  Provisionamento de uma instância Amazon RDS MySQL para
+  armazenamento persistente de dados.
+
+Parameters:
+
+  DBName:
+    Description: Nome do banco de dados
+    Type: String
+    Default: appdb
+
+  DBUser:
+    Description: Usuário administrador
+    Type: String
+    Default: admin
+
+  DBPassword:
+    Description: Senha do banco
+    Type: String
+    NoEcho: true
+    MinLength: 8
+
+  DBInstanceClass:
+    Description: Classe da instância RDS
+    Type: String
+    Default: db.t3.micro
+
+  AllocatedStorage:
+    Description: Espaço em disco em GB
+    Type: Number
+    Default: 20
+
+Resources:
+
+  DatabaseInstance:
+
+    Type: AWS::RDS::DBInstance
+
+    Properties:
+
+      Engine: mysql
+
+      EngineVersion: "8.0"
+
+      DBInstanceClass: !Ref DBInstanceClass
+
+      AllocatedStorage: !Ref AllocatedStorage
+
+      DBName: !Ref DBName
+
+      MasterUsername: !Ref DBUser
+
+      MasterUserPassword: !Ref DBPassword
+
+      PubliclyAccessible: false
+
+      BackupRetentionPeriod: 7
+
+      StorageEncrypted: true
+
+      DeletionProtection: false
+
+      Tags:
+
+        - Key: Name
+          Value: CloudFormationDatabase
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+        - Key: Environment
+          Value: Development
+
+Outputs:
+
+  DatabaseEndpoint:
+    Description: Endpoint do banco de dados
+    Value: !GetAtt DatabaseInstance.Endpoint.Address
+
+  DatabasePort:
+    Description: Porta do banco
+    Value: !GetAtt DatabaseInstance.Endpoint.Port
