@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  IAM Role e Instance Profile para instâncias EC2.
+
+Resources:
+
+  EC2Role:
+
+    Type: AWS::IAM::Role
+
+    Properties:
+
+      RoleName: CloudFormationLabEC2Role
+
+      AssumeRolePolicyDocument:
+
+        Version: '2012-10-17'
+
+        Statement:
+
+          - Effect: Allow
+
+            Principal:
+
+              Service:
+                - ec2.amazonaws.com
+
+            Action:
+              - sts:AssumeRole
+
+      ManagedPolicyArns:
+
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+      Tags:
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+  EC2InstanceProfile:
+
+    Type: AWS::IAM::InstanceProfile
+
+    Properties:
+
+      InstanceProfileName: CloudFormationLabInstanceProfile
+
+      Roles:
+
+        - !Ref EC2Role
+
+Outputs:
+
+  RoleName:
+    Description: Nome da IAM Role
+    Value: !Ref EC2Role
+
+  InstanceProfile:
+    Description: Instance Profile criado
+    Value: !Ref EC2InstanceProfile
