@@ -259,7 +259,7 @@ Security Groups reutilizáveis.
 
 ---
 
-Estratégia da Solução (Meigarom)
+Estratégia da Solução
 
 Entendimento do problema
 
