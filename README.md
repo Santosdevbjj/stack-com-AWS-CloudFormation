@@ -63,7 +63,7 @@ stack-com-AWS-CloudFormation/
 
 ---
 
-README principal (estrutura FAANG)
+README principal
 
 ☁️ Implementando sua Primeira Stack com AWS CloudFormation
 
