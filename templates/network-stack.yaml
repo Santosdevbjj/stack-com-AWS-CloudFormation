@@ -1,0 +1,163 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  CloudFormation template para criação da infraestrutura de rede
+  contendo VPC, Internet Gateway, Subnet Pública, Route Table e
+  associação das rotas para acesso à internet.
+
+Parameters:
+
+  VPCCidr:
+    Description: Bloco CIDR da VPC
+    Type: String
+    Default: 10.0.0.0/16
+
+  PublicSubnetCidr:
+    Description: Bloco CIDR da Subnet Pública
+    Type: String
+    Default: 10.0.1.0/24
+
+Resources:
+
+  MyVPC:
+
+    Type: AWS::EC2::VPC
+
+    Properties:
+
+      CidrBlock: !Ref VPCCidr
+
+      EnableDnsSupport: true
+
+      EnableDnsHostnames: true
+
+      Tags:
+
+        - Key: Name
+          Value: CloudFormation-VPC
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+        - Key: Environment
+          Value: Development
+
+  InternetGateway:
+
+    Type: AWS::EC2::InternetGateway
+
+    Properties:
+
+      Tags:
+
+        - Key: Name
+          Value: CloudFormation-IGW
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+  AttachGateway:
+
+    Type: AWS::EC2::VPCGatewayAttachment
+
+    Properties:
+
+      VpcId: !Ref MyVPC
+
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet:
+
+    Type: AWS::EC2::Subnet
+
+    Properties:
+
+      VpcId: !Ref MyVPC
+
+      CidrBlock: !Ref PublicSubnetCidr
+
+      MapPublicIpOnLaunch: true
+
+      AvailabilityZone: !Select
+        - 0
+        - !GetAZs ''
+
+      Tags:
+
+        - Key: Name
+          Value: PublicSubnet
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+  PublicRouteTable:
+
+    Type: AWS::EC2::RouteTable
+
+    Properties:
+
+      VpcId: !Ref MyVPC
+
+      Tags:
+
+        - Key: Name
+          Value: PublicRouteTable
+
+        - Key: Project
+          Value: CloudFormation-Lab
+
+  DefaultRoute:
+
+    Type: AWS::EC2::Route
+
+    DependsOn: AttachGateway
+
+    Properties:
+
+      RouteTableId: !Ref PublicRouteTable
+
+      DestinationCidrBlock: 0.0.0.0/0
+
+      GatewayId: !Ref InternetGateway
+
+  PublicSubnetRouteAssociation:
+
+    Type: AWS::EC2::SubnetRouteTableAssociation
+
+    Properties:
+
+      RouteTableId: !Ref PublicRouteTable
+
+      SubnetId: !Ref PublicSubnet
+
+Outputs:
+
+  VpcId:
+    Description: ID da VPC criada
+    Value: !Ref MyVPC
+
+    Export:
+      Name: CloudFormationLab-VpcId
+
+  PublicSubnetId:
+    Description: ID da Subnet Pública
+    Value: !Ref PublicSubnet
+
+    Export:
+      Name: CloudFormationLab-PublicSubnetId
+
+  InternetGatewayId:
+    Description: ID do Internet Gateway
+    Value: !Ref InternetGateway
+
+  RouteTableId:
+    Description: ID da Route Table
+    Value: !Ref PublicRouteTable
+
+  VPCCidrBlock:
+    Description: Bloco CIDR da VPC
+    Value: !Ref VPCCidr
+
+  PublicSubnetCIDR:
+    Description: Bloco CIDR da Subnet Pública
+    Value: !Ref PublicSubnetCidr
