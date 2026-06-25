@@ -1,3 +1,10 @@
+## Formação AWS Cloud Foundations.
+
+<img width="105" height="120" alt="1000127839" src="https://github.com/user-attachments/assets/a3a12c71-94fb-464f-b615-9d0dd7a5f461" />
+
+---
+
+
 ## 🚀 Implementando sua Primeira Stack com AWS CloudFormation
 
 "AWS" (https://img.shields.io/badge/AWS-CloudFormation-orange)
