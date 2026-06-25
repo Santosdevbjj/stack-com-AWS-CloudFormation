@@ -1,6 +1,6 @@
-🔐 IAM Stack com AWS CloudFormation
+## 🔐 IAM Stack com AWS CloudFormation
 
-Problema de Negócio
+## Problema de Negócio
 
 Um dos maiores riscos em ambientes cloud é o excesso de permissões.
 
@@ -12,7 +12,7 @@ Quando usuários recebem privilégios administrativos desnecessários:
 
 ---
 
-Contexto
+## Contexto
 
 O AWS IAM controla:
 
@@ -25,9 +25,9 @@ Ele é um dos pilares do modelo de segurança AWS.
 
 ---
 
-Premissas
+## Premissas
 
-Foram consideradas:
+## Foram consideradas:
 
 - Aplicação do princípio do menor privilégio.
 - Segregação de responsabilidades.
@@ -36,9 +36,9 @@ Foram consideradas:
 
 ---
 
-Estratégia da Solução
+## Estratégia da Solução
 
-A stack cria:
+## A stack cria:
 
 - IAM Role
 - IAM Policy
@@ -47,7 +47,9 @@ A stack cria:
 
 ---
 
-Arquitetura
+## Arquitetura
+
+```
 
 IAM Policy
       │
@@ -55,26 +57,36 @@ IAM Role
       │
 EC2 / Lambda / ECS
 
+```
+
 ---
 
-Template Utilizado
+## Template Utilizado
 
-Arquivo:
+## Arquivo:
 
+```
 templates/iam-stack.yaml
 
-Recursos utilizados:
+```
 
+
+## Recursos utilizados:
+
+```
 AWS::IAM::Role
 AWS::IAM::Policy
 
+```
+
+
 ---
 
-Decisões Técnicas
+## Decisões Técnicas
 
 Foi utilizada Role em vez de Access Keys.
 
-Motivos:
+## Motivos:
 
 - mais segurança;
 - rotação automática de credenciais;
@@ -82,7 +94,7 @@ Motivos:
 
 ---
 
-Insights
+## Insights
 
 Muitos incidentes de segurança ocorrem devido a permissões excessivas.
 
@@ -90,7 +102,7 @@ CloudFormation permite padronizar controles de acesso desde o início.
 
 ---
 
-Resultados
+## Resultados
 
 A solução entrega:
 
@@ -104,7 +116,7 @@ A solução entrega:
 
 ---
 
-Próximos Passos
+## Próximos Passos
 
 - IAM Identity Center
 - MFA obrigatório
@@ -113,7 +125,7 @@ Próximos Passos
 
 ---
 
-Aprendizados
+## Aprendizados
 
 Segurança em nuvem não começa no firewall.
 
