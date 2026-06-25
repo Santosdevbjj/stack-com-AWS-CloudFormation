@@ -1,5 +1,10 @@
 # Infrastructure as Code com AWS CloudFormation
 
+<img width="105" height="120" alt="1000127839" src="https://github.com/user-attachments/assets/c739a89d-e114-47d5-a2bd-ba40e15600af" />
+
+---
+
+
 ![AWS](https://img.shields.io/badge/AWS-CloudFormation-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![IaC](https://img.shields.io/badge/IaC-Infrastructure%20as%20Code-232F3E?style=for-the-badge&logo=terraform&logoColor=white)
 ![YAML](https://img.shields.io/badge/Templates-YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
