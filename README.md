@@ -1,4 +1,4 @@
-🚀 Implementando sua Primeira Stack com AWS CloudFormation
+## 🚀 Implementando sua Primeira Stack com AWS CloudFormation
 
 "AWS" (https://img.shields.io/badge/AWS-CloudFormation-orange)
 "IaC" (https://img.shields.io/badge/IaC-Infrastructure%20as%20Code-blue)
@@ -8,7 +8,7 @@
 
 ---
 
-📖 Visão Geral
+## 📖 Visão Geral
 
 A criação manual de infraestrutura em nuvem costuma gerar inconsistências, retrabalho, falhas de configuração e dificuldades de auditoria.
 
@@ -33,7 +33,7 @@ Mais do que criar recursos AWS, o objetivo deste projeto é demonstrar como tran
 
 ---
 
-🎯 Problema de Negócio
+## 🎯 Problema de Negócio
 
 Imagine uma empresa que precisa criar rapidamente novos ambientes para:
 
@@ -58,7 +58,7 @@ O desafio é criar uma abordagem capaz de:
 
 ---
 
-🌎 Contexto
+## 🌎 Contexto
 
 A AWS disponibiliza centenas de serviços que podem ser provisionados em minutos.
 
@@ -68,23 +68,34 @@ Foi exatamente para resolver esse problema que a AWS criou o CloudFormation, per
 
 Nesse modelo:
 
+``` 
 Infraestrutura = Código
+
+```
 
 Em vez de clicar no Console AWS:
 
+```
+
 Clique → Configuração → Clique → Configuração
 
+```
+
 Utilizamos:
+
+```
 
 Resources:
   WebServer:
     Type: AWS::EC2::Instance
 
+```
+
 E deixamos a AWS criar tudo automaticamente.
 
 ---
 
-📌 Premissas
+## 📌 Premissas
 
 Para desenvolvimento deste projeto foram consideradas as seguintes premissas:
 
@@ -98,7 +109,7 @@ Para desenvolvimento deste projeto foram consideradas as seguintes premissas:
 
 ---
 
-🏗️ O Que é AWS CloudFormation?
+## 🏗️ O Que é AWS CloudFormation?
 
 AWS CloudFormation é o serviço de Infraestrutura como Código (IaC) da AWS.
 
@@ -118,7 +129,7 @@ Com CloudFormation, uma infraestrutura pode ser criada utilizando apenas um arqu
 
 ---
 
-🎯 Objetivos do Projeto
+## 🎯 Objetivos do Projeto
 
 Este projeto foi desenvolvido para:
 
@@ -131,9 +142,11 @@ Este projeto foi desenvolvido para:
 
 ---
 
-🛠️ Estratégia da Solução
+## 🛠️ Estratégia da Solução
 
 A solução foi organizada em múltiplas stacks independentes.
+
+```
 
 CloudFormation Project
 │
@@ -149,6 +162,9 @@ CloudFormation Project
 ├── Database
 └── Nested Stack
 
+```
+
+
 Essa abordagem permite:
 
 - modularização;
@@ -158,7 +174,9 @@ Essa abordagem permite:
 
 ---
 
-📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto
+
+```
 
 stack-com-AWS-CloudFormation
 │
@@ -200,11 +218,14 @@ stack-com-AWS-CloudFormation
 │
 └── README.md
 
+```
+
+
 ---
 
-⚙️ Tecnologias Utilizadas
+## ⚙️ Tecnologias Utilizadas
 
-Cloud
+### Cloud
 
 - AWS CloudFormation
 - Amazon EC2
@@ -217,21 +238,21 @@ Cloud
 - Auto Scaling
 - Elastic Load Balancer
 
-Infraestrutura
+## Infraestrutura
 
 - YAML
 - Infrastructure as Code (IaC)
 
-Versionamento
+## Versionamento
 
 - Git
 - GitHub
 
 ---
 
-🚀 Templates Desenvolvidos
+## 🚀 Templates Desenvolvidos
 
-Network Stack
+### Network Stack
 
 Responsável por:
 
@@ -242,7 +263,7 @@ Responsável por:
 
 ---
 
-Firewall Stack
+### Firewall Stack
 
 Responsável por:
 
@@ -252,7 +273,7 @@ Responsável por:
 
 ---
 
-Web Server Stack
+### Web Server Stack
 
 Responsável por:
 
@@ -262,7 +283,7 @@ Responsável por:
 
 ---
 
-Storage Stack
+### Storage Stack
 
 Responsável por:
 
@@ -272,7 +293,7 @@ Responsável por:
 
 ---
 
-IAM Stack
+### IAM Stack
 
 Responsável por:
 
@@ -282,7 +303,7 @@ Responsável por:
 
 ---
 
-Monitoring Stack
+### Monitoring Stack
 
 Responsável por:
 
@@ -292,7 +313,7 @@ Responsável por:
 
 ---
 
-SNS Stack
+### SNS Stack
 
 Responsável por:
 
@@ -301,7 +322,7 @@ Responsável por:
 
 ---
 
-Load Balancer Stack
+### Load Balancer Stack
 
 Responsável por:
 
@@ -310,7 +331,7 @@ Responsável por:
 
 ---
 
-Auto Scaling Stack
+### Auto Scaling Stack
 
 Responsável por:
 
@@ -319,7 +340,7 @@ Responsável por:
 
 ---
 
-Database Stack
+### Database Stack
 
 Responsável por:
 
@@ -328,7 +349,7 @@ Responsável por:
 
 ---
 
-Nested Stack
+### Nested Stack
 
 Responsável por:
 
@@ -336,43 +357,61 @@ Responsável por:
 
 ---
 
-🚀 Como Executar
+## 🚀 Como Executar
 
 Validar Template
+
+
+```
 
 aws cloudformation validate-template \
 --template-body file://templates/webserver-stack.yaml
 
+```
+
+
 ---
 
-Criar Stack
+## Criar Stack
+
+```
 
 aws cloudformation create-stack \
 --stack-name WebServerStack \
 --template-body file://templates/webserver-stack.yaml \
 --parameters file://templates/parameters.json
 
+```
+
 ---
 
-Monitorar
+## Monitorar
+
+```
 
 aws cloudformation describe-stack-events \
 --stack-name WebServerStack
 
+```
+
 ---
 
-Excluir Stack
+## Excluir Stack
+
+```
 
 aws cloudformation delete-stack \
 --stack-name WebServerStack
 
+```
+
 ---
 
-💡 Principais Insights
+## 💡 Principais Insights
 
 Durante o desenvolvimento deste projeto ficou evidente que:
 
-Infraestrutura é Software
+### Infraestrutura é Software
 
 Infraestrutura moderna deve ser:
 
@@ -383,7 +422,7 @@ Infraestrutura moderna deve ser:
 
 ---
 
-Automação reduz erros
+### Automação reduz erros
 
 Toda configuração manual é candidata a erro.
 
@@ -391,19 +430,19 @@ CloudFormation transforma processos manuais em processos previsíveis.
 
 ---
 
-Segurança deve nascer no template
+### Segurança deve nascer no template
 
 Boas práticas de IAM e Security Groups devem ser aplicadas desde o início.
 
 ---
 
-Modularização facilita manutenção
+### Modularização facilita manutenção
 
 Separar recursos em múltiplas stacks torna a arquitetura mais sustentável.
 
 ---
 
-📈 Resultados Obtidos
+## 📈 Resultados Obtidos
 
 Ao final deste laboratório foi possível:
 
@@ -425,7 +464,7 @@ Ao final deste laboratório foi possível:
 
 ---
 
-🎓 Aprendizados
+## 🎓 Aprendizados
 
 Os principais aprendizados foram:
 
@@ -439,7 +478,7 @@ Os principais aprendizados foram:
 
 ---
 
-🔮 Próximos Passos
+## 🔮 Próximos Passos
 
 Evoluções futuras deste projeto:
 
@@ -453,7 +492,7 @@ Evoluções futuras deste projeto:
 
 ---
 
-🏆 Conclusão
+## 🏆 Conclusão
 
 Este projeto demonstrou como o AWS CloudFormation permite transformar infraestrutura em código, reduzindo erros operacionais e aumentando a produtividade das equipes.
 
@@ -467,10 +506,12 @@ Essa é uma das competências mais valorizadas atualmente para profissionais de 
 
 ---
 
-👨‍💻 Autor
+## 👨‍💻 Autor
 
 Sérgio Luiz dos Santos
 
 Tecnologia da Informação | Cloud Computing | Infraestrutura | Dados | Inteligência Artificial
 
 Projeto desenvolvido como parte da formação AWS Cloud Foundations e estudos práticos de AWS CloudFormation.
+
+
