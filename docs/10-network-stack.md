@@ -62,6 +62,7 @@ A stack de rede cria automaticamente:
 
 Estrutura da Solução
 
+```
 Internet
     │
 Internet Gateway
@@ -75,20 +76,29 @@ VPC
     ├── RDS
     └── Application Servers
 
+```
 ---
 
 Template CloudFormation
 
 Arquivo:
 
+```
 templates/network-stack.yaml
 
+```
+
+
 Principais recursos:
+
+```
 
 AWS::EC2::VPC
 AWS::EC2::Subnet
 AWS::EC2::InternetGateway
 AWS::EC2::RouteTable
+
+```
 
 ---
 
