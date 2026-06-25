@@ -1,8 +1,8 @@
-🗄️ Storage Stack com AWS CloudFormation
+## 🗄️ Storage Stack com AWS CloudFormation
 
-Problema de Negócio
+## Problema de Negócio
 
-Empresas precisam armazenar:
+## Empresas precisam armazenar:
 
 - documentos;
 - backups;
@@ -10,7 +10,7 @@ Empresas precisam armazenar:
 - logs;
 - arquivos de aplicação.
 
-Criar buckets manualmente gera:
+## Criar buckets manualmente gera:
 
 - inconsistências;
 - falhas de segurança;
@@ -18,11 +18,11 @@ Criar buckets manualmente gera:
 
 ---
 
-Contexto
+## Contexto
 
 O Amazon S3 é o principal serviço de armazenamento da AWS.
 
-Ele oferece:
+## Ele oferece:
 
 - alta durabilidade;
 - escalabilidade ilimitada;
@@ -31,9 +31,9 @@ Ele oferece:
 
 ---
 
-Premissas
+## Premissas
 
-Foram consideradas:
+## Foram consideradas:
 
 - Necessidade de armazenamento seguro.
 - Versionamento habilitado.
@@ -42,7 +42,7 @@ Foram consideradas:
 
 ---
 
-Estratégia da Solução
+## Estratégia da Solução
 
 A stack provisiona:
 
@@ -54,7 +54,9 @@ A stack provisiona:
 
 ---
 
-Arquitetura
+## Arquitetura
+
+```
 
 Aplicação
     │
@@ -64,41 +66,51 @@ Versionamento
     │
 Criptografia
 
+```
+
 ---
 
-Template Utilizado
+## Template Utilizado
 
-Arquivo:
+## Arquivo:
 
+```
 templates/storage-stack.yaml
+```
 
-Recursos principais:
+
+## Recursos principais:
+
+```
 
 AWS::S3::Bucket
 
+```
+
+
 ---
 
-Benefícios
+## Benefícios
 
-Segurança
+## Segurança
 
 Proteção contra perda de dados.
 
-Auditoria
+## Auditoria
 
 Rastreamento de alterações.
 
-Governança
+## Governança
 
 Padronização corporativa.
 
-Escalabilidade
+## Escalabilidade
 
 Capacidade praticamente ilimitada.
 
 ---
 
-Insights
+## Insights
 
 Muitas organizações começam a utilizar S3 apenas como armazenamento.
 
@@ -111,7 +123,7 @@ Com o tempo descobrem que ele pode ser utilizado para:
 
 ---
 
-Resultados
+## Resultados
 
 A solução entrega:
 
@@ -125,7 +137,7 @@ A solução entrega:
 
 ---
 
-Próximos Passos
+## Próximos Passos
 
 - Lifecycle Policies
 - Glacier
@@ -135,7 +147,7 @@ Próximos Passos
 
 ---
 
-Aprendizados
+## Aprendizados
 
 Armazenamento não é apenas guardar arquivos.
 
