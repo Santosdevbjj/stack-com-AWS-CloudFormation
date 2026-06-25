@@ -1,10 +1,10 @@
-🌐 Network Stack com AWS CloudFormation
+## 🌐 Network Stack com AWS CloudFormation
 
-Problema de Negócio
+## Problema de Negócio
 
 Empresas modernas precisam implantar aplicações de forma rápida, segura e repetível.
 
-Quando redes são configuradas manualmente:
+## Quando redes são configuradas manualmente:
 
 - surgem erros de configuração;
 - equipes perdem produtividade;
@@ -15,11 +15,11 @@ O desafio é criar uma infraestrutura de rede padronizada, reutilizável e versi
 
 ---
 
-Contexto
+## Contexto
 
 Toda aplicação AWS depende de uma camada de rede.
 
-Essa camada normalmente inclui:
+## Essa camada normalmente inclui:
 
 - VPC
 - Subnets
@@ -27,7 +27,7 @@ Essa camada normalmente inclui:
 - Route Tables
 - Security Controls
 
-Sem uma arquitetura de rede bem definida:
+## Sem uma arquitetura de rede bem definida:
 
 - aplicações podem ficar inacessíveis;
 - recursos podem ficar expostos à internet;
@@ -35,7 +35,7 @@ Sem uma arquitetura de rede bem definida:
 
 ---
 
-Premissas
+## Premissas
 
 Para este projeto foram consideradas as seguintes premissas:
 
@@ -47,9 +47,9 @@ Para este projeto foram consideradas as seguintes premissas:
 
 ---
 
-Estratégia da Solução
+## Estratégia da Solução
 
-A stack de rede cria automaticamente:
+## A stack de rede cria automaticamente:
 
 1. VPC
 2. Subnets Públicas
@@ -60,7 +60,7 @@ A stack de rede cria automaticamente:
 
 ---
 
-Estrutura da Solução
+## Estrutura da Solução
 
 ```
 Internet
@@ -79,9 +79,9 @@ VPC
 ```
 ---
 
-Template CloudFormation
+### Template CloudFormation
 
-Arquivo:
+## Arquivo:
 
 ```
 templates/network-stack.yaml
@@ -89,7 +89,7 @@ templates/network-stack.yaml
 ```
 
 
-Principais recursos:
+## Principais recursos:
 
 ```
 
@@ -102,11 +102,11 @@ AWS::EC2::RouteTable
 
 ---
 
-Insights
+## Insights
 
 Infraestrutura de rede costuma representar a fundação de qualquer ambiente AWS.
 
-Uma boa arquitetura reduz:
+## Uma boa arquitetura reduz:
 
 - riscos de segurança;
 - falhas operacionais;
@@ -114,7 +114,7 @@ Uma boa arquitetura reduz:
 
 ---
 
-Resultados
+## Resultados
 
 Com essa stack é possível:
 
@@ -128,7 +128,7 @@ Com essa stack é possível:
 
 ---
 
-Próximos Passos
+## Próximos Passos
 
 - Implementar NAT Gateway
 - Multi-AZ
@@ -138,7 +138,7 @@ Próximos Passos
 
 ---
 
-Aprendizados
+## Aprendizados
 
 A rede é a base da arquitetura em nuvem.
 
