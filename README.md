@@ -1,191 +1,216 @@
-## Formação AWS Cloud Foundations.
+# Infrastructure as Code com AWS CloudFormation
 
-<img width="105" height="120" alt="1000127839" src="https://github.com/user-attachments/assets/a3a12c71-94fb-464f-b615-9d0dd7a5f461" />
-
----
-
-
-## 🚀 Implementando sua Primeira Stack com AWS CloudFormation
-
-"AWS" (https://img.shields.io/badge/AWS-CloudFormation-orange)
-"IaC" (https://img.shields.io/badge/IaC-Infrastructure%20as%20Code-blue)
-"YAML" (https://img.shields.io/badge/YAML-Templates-red)
-"Cloud" (https://img.shields.io/badge/Cloud-AWS-yellow)
-"Status" (https://img.shields.io/badge/Status-Concluído-success)
+![AWS](https://img.shields.io/badge/AWS-CloudFormation-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![IaC](https://img.shields.io/badge/IaC-Infrastructure%20as%20Code-232F3E?style=for-the-badge&logo=terraform&logoColor=white)
+![YAML](https://img.shields.io/badge/Templates-YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Concluído-00C851?style=for-the-badge)
 
 ---
 
-## 📖 Visão Geral
+## 1. Problema de Negócio
 
-A criação manual de infraestrutura em nuvem costuma gerar inconsistências, retrabalho, falhas de configuração e dificuldades de auditoria.
+Equipes de engenharia que provisionam infraestrutura manualmente enfrentam um problema silencioso e caro: **cada clique no Console AWS é um risco de configuração inconsistente**.
 
-Em ambientes corporativos, equipes precisam provisionar servidores, redes, armazenamento, permissões e monitoramento de forma rápida, segura e reproduzível.
+Em ambientes corporativos com múltiplos ambientes — desenvolvimento, homologação e produção — esse risco se multiplica. Surgem divergências entre ambientes, falhas de segurança por configurações esquecidas, dificuldade de auditoria e ausência total de rastreabilidade. Quando um incidente ocorre, reproduzir o ambiente original vira um trabalho arqueológico.
 
-Este projeto demonstra como utilizar o AWS CloudFormation para automatizar a criação de infraestrutura utilizando o conceito de Infrastructure as Code (IaC).
-
-Ao longo deste laboratório foram desenvolvidos diversos templates CloudFormation que simulam componentes reais de uma arquitetura corporativa AWS, incluindo:
-
-- Redes
-- Segurança
-- Servidores Web
-- Armazenamento
-- IAM
-- Monitoramento
-- Banco de Dados
-- Auto Scaling
-- Load Balancer
-- Nested Stacks
-
-Mais do que criar recursos AWS, o objetivo deste projeto é demonstrar como transformar infraestrutura em código versionável, auditável e reutilizável.
+**O desafio central é transformar infraestrutura de um processo artesanal e frágil em um ativo de engenharia: versionado, auditável e reproduzível.**
 
 ---
 
-## 🎯 Problema de Negócio
+## 2. Contexto
 
-Imagine uma empresa que precisa criar rapidamente novos ambientes para:
+A AWS disponibiliza centenas de serviços que podem ser provisionados em minutos, mas à medida que a infraestrutura cresce, o gerenciamento manual se torna inviável.
 
-- desenvolvimento;
-- homologação;
-- produção.
+Organizações maduras tratam infraestrutura como software. Cada recurso — VPC, Security Group, instância EC2, banco de dados RDS — é descrito em código, revisado via Pull Request, versionado no Git e implantado de forma automatizada. Essa disciplina tem nome: **Infrastructure as Code (IaC)**.
 
-Quando tudo é feito manualmente pelo Console AWS, surgem problemas como:
+O AWS CloudFormation é o serviço nativo da AWS para IaC. Em vez de clicar manualmente:
 
-- configurações inconsistentes;
-- erros humanos;
-- dificuldade de reproduzir ambientes;
-- falta de governança;
-- aumento de custos operacionais.
-
-O desafio é criar uma abordagem capaz de:
-
-- padronizar ambientes;
-- reduzir falhas;
-- aumentar produtividade;
-- acelerar implantações.
-
----
-
-## 🌎 Contexto
-
-A AWS disponibiliza centenas de serviços que podem ser provisionados em minutos.
-
-Porém, à medida que a infraestrutura cresce, torna-se inviável gerenciar tudo manualmente.
-
-Foi exatamente para resolver esse problema que a AWS criou o CloudFormation, permitindo definir infraestrutura através de arquivos YAML ou JSON.
-
-Nesse modelo:
-
-``` 
-Infraestrutura = Código
-
-```
-
-Em vez de clicar no Console AWS:
-
-```
-
-Clique → Configuração → Clique → Configuração
-
-```
-
-Utilizamos:
-
-```
-
+```yaml
 Resources:
   WebServer:
     Type: AWS::EC2::Instance
-
+    Properties:
+      InstanceType: !Ref InstanceType
 ```
 
-E deixamos a AWS criar tudo automaticamente.
+E a AWS cria, atualiza e remove recursos automaticamente, com rollback automático em caso de falha.
+
+Este projeto simula a jornada de uma organização que migra da infraestrutura manual para IaC completa, cobrindo todos os componentes de uma arquitetura corporativa AWS.
 
 ---
 
-## 📌 Premissas
+## 3. Premissas da Análise
 
-Para desenvolvimento deste projeto foram consideradas as seguintes premissas:
+Para desenvolvimento deste projeto foram adotadas as seguintes premissas:
 
-- Uso do AWS CloudFormation como ferramenta principal de IaC.
-- Templates escritos em YAML.
-- Arquitetura modular.
-- Recursos desacoplados.
-- Aplicação de boas práticas AWS.
-- Versionamento completo via GitHub.
-- Foco educacional e profissional.
-
----
-
-## 🏗️ O Que é AWS CloudFormation?
-
-AWS CloudFormation é o serviço de Infraestrutura como Código (IaC) da AWS.
-
-Ele permite:
-
-✅ Criar recursos automaticamente
-
-✅ Atualizar ambientes de forma controlada
-
-✅ Reproduzir arquiteturas inteiras
-
-✅ Versionar infraestrutura
-
-✅ Reduzir erros operacionais
-
-Com CloudFormation, uma infraestrutura pode ser criada utilizando apenas um arquivo YAML.
+- **AWS CloudFormation** como ferramenta principal de IaC, sem dependência de ferramentas de terceiros
+- **Templates YAML** como formato padrão, por maior legibilidade e menor verbosidade em relação ao JSON
+- **Arquitetura modular** com stacks independentes e responsabilidades isoladas
+- **Princípio do menor privilégio** aplicado desde o template, não como camada posterior
+- **Versionamento completo** via GitHub, com templates tratados como código de produção
+- **Rollback automático** habilitado como mecanismo de segurança em todos os deploys
+- **Tagging consistente** em todos os recursos para governança e rastreabilidade de custos
 
 ---
 
-## 🎯 Objetivos do Projeto
+## 4. Estratégia da Solução
 
-Este projeto foi desenvolvido para:
-
-- compreender o funcionamento do CloudFormation;
-- aprender Infraestrutura como Código;
-- praticar criação de stacks;
-- automatizar provisionamento de recursos;
-- documentar boas práticas AWS;
-- construir um portfólio profissional de Cloud Computing.
-
----
-
-## 🛠️ Estratégia da Solução
-
-A solução foi organizada em múltiplas stacks independentes.
+A solução foi arquitetada em **11 stacks independentes**, cada uma com responsabilidade única, orquestradas por uma Nested Stack raiz. Essa abordagem espelha padrões usados em ambientes enterprise de larga escala.
 
 ```
-
-CloudFormation Project
+Root Stack (nested-stack.yaml)
 │
-├── Network
-├── Firewall
-├── WebServer
-├── Storage
-├── IAM
-├── Monitoring
-├── SNS
-├── Load Balancer
-├── Auto Scaling
-├── Database
-└── Nested Stack
-
+├── 🌐 Network Stack        → VPC, Subnets, IGW, Route Tables
+├── 🔥 Firewall Stack       → Security Groups (SSH, HTTP, HTTPS)
+├── 🖥️  WebServer Stack      → EC2 + Apache + UserData
+├── 🗄️  Storage Stack        → S3 com versionamento e criptografia AES-256
+├── 🔐 IAM Stack            → Roles, Policies, Instance Profiles
+├── 📊 Monitoring Stack     → CloudWatch Alarms (CPU > 80%)
+├── 📣 SNS Stack            → Tópicos de alerta e notificações por e-mail
+├── ⚖️  Load Balancer Stack  → ALB com Target Group e Health Check
+├── 📈 Auto Scaling Stack   → ASG com Launch Template (min 1 / max 3)
+├── 🗃️  Database Stack       → RDS MySQL 8.0 com criptografia e backup
+└── 🏗️  Nested Stack         → Orquestração de todos os componentes acima
 ```
 
+**Por que modularizar em vez de um único template?**
 
-Essa abordagem permite:
-
-- modularização;
-- manutenção simplificada;
-- reutilização de componentes;
-- escalabilidade futura.
+Em projetos reais, equipes distintas gerenciam domínios distintos. A equipe de rede mantém `network-stack.yaml`; a equipe de segurança mantém `firewall-stack.yaml`. Nested Stacks permitem que cada time evolua seu componente de forma independente sem risco de conflitos ou regressões nos demais.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 5. Arquitetura da Solução
 
 ```
+Internet
+    │
+    ▼
+Internet Gateway
+    │
+    ▼
+VPC (10.0.0.0/16)
+    │
+    ├── Public Subnet
+    │       │
+    │       ├── Application Load Balancer
+    │       │       │
+    │       │       └── Auto Scaling Group
+    │       │               │
+    │       │               └── EC2 (Apache HTTP Server)
+    │       │
+    │       └── Security Group (HTTP 80 / HTTPS 443 / SSH 22)
+    │
+    └── Private Subnet
+            │
+            └── RDS MySQL 8.0 (criptografado, sem acesso público)
 
-stack-com-AWS-CloudFormation
+Transversal:
+    ├── S3 (versionamento + AES-256)
+    ├── IAM Role (menor privilégio — S3ReadOnly)
+    ├── CloudWatch Alarm (CPU > 80% → SNS)
+    └── SNS Topic (alertas por e-mail)
+```
+
+---
+
+## 6. Templates Desenvolvidos
+
+### 🌐 Network Stack — `templates/network-stack.yaml`
+
+Provisiona a fundação de rede com VPC dedicada, subnet pública com rota para a internet e Internet Gateway. Exporta `VpcId` e `PublicSubnetId` via Outputs para consumo por outras stacks.
+
+**Decisão técnica:** `EnableDnsHostnames: true` habilitado para que instâncias EC2 recebam DNS público automaticamente, eliminando a necessidade de configuração manual posterior.
+
+---
+
+### 🔥 Firewall Stack — `templates/firewall-stack.yaml`
+
+Security Group parametrizável com regras para SSH, HTTP e HTTPS. O IP de SSH é configurável via parâmetro `SSHLocation` com validação de formato CIDR.
+
+**Decisão técnica:** SSH configurado como parâmetro (não hardcoded em `0.0.0.0/0`) para forçar restrição por IP do operador. Em produção, o valor correto é `203.0.113.x/32`, nunca acesso irrestrito.
+
+---
+
+### 🖥️ WebServer Stack — `templates/webserver-stack.yaml`
+
+EC2 com Amazon Linux 2 provisionada via SSM Parameter Store (AMI sempre atualizada). Apache HTTP Server instalado e habilitado automaticamente via `UserData`. Outputs expõem `PublicIP`, `PublicDNS` e `WebsiteURL`.
+
+**Decisão técnica:** AMI resolvida via `AWS::SSM::Parameter::Value` em vez de ID fixo, eliminando o risco de deploy em AMI desatualizada com vulnerabilidades conhecidas.
+
+---
+
+### 🗄️ Storage Stack — `templates/storage-stack.yaml`
+
+Bucket S3 com versionamento habilitado, criptografia server-side AES-256 e bloqueio total de acesso público (`BlockPublicAcls`, `BlockPublicPolicy`, `RestrictPublicBuckets`).
+
+**Decisão técnica:** Criptografia e bloqueio público configurados no template, não como configuração posterior. Segurança não é opcional — ela nasce no código.
+
+---
+
+### 🔐 IAM Stack — `templates/iam-stack.yaml`
+
+IAM Role com `AssumeRolePolicyDocument` restrito ao serviço EC2 e política gerenciada `AmazonS3ReadOnlyAccess`. Instance Profile associado para uso direto por instâncias.
+
+**Decisão técnica:** Role em vez de Access Keys. Credenciais temporárias rotacionadas automaticamente pela AWS eliminam o risco de vazamento de credenciais estáticas — um dos vetores de ataque mais comuns em ambientes cloud.
+
+---
+
+### 📊 Monitoring Stack — `templates/monitoring-stack.yaml`
+
+CloudWatch Alarm parametrizado por `InstanceId`, configurado para disparar quando CPUUtilization superar 80% por 5 minutos consecutivos. `TreatMissingData: notBreaching` evita falsos alertas durante períodos de manutenção.
+
+---
+
+### 📣 SNS Stack — `templates/sns-stack.yaml`
+
+Tópico SNS com subscription de e-mail parametrizável. Integra-se ao CloudWatch Alarm para notificações operacionais em tempo real.
+
+---
+
+### ⚖️ Load Balancer Stack — `templates/loadbalancer-stack.yaml`
+
+Application Load Balancer internet-facing com Security Group dedicado, Target Group com Health Check em `/` e Listener na porta 80. Outputs expõem `LoadBalancerDNS` e `TargetGroupArn`.
+
+---
+
+### 📈 Auto Scaling Stack — `templates/autoscaling-stack.yaml`
+
+Launch Template com UserData para Apache e Auto Scaling Group configurado com `MinSize: 1`, `MaxSize: 3`, `DesiredCapacity: 2`, distribuído em duas subnets públicas para alta disponibilidade.
+
+**Decisão técnica:** Launch Template em vez de Launch Configuration (deprecated). Templates suportam versionamento nativo, permitindo rollback de configuração de instância sem recriar o ASG.
+
+---
+
+### 🗃️ Database Stack — `templates/database-stack.yaml`
+
+RDS MySQL 8.0 com `PubliclyAccessible: false`, `StorageEncrypted: true`, `BackupRetentionPeriod: 7` dias e `DeletionProtection: false` (adequado para laboratório). Senha gerenciada via parâmetro `NoEcho` para nunca aparecer em logs.
+
+---
+
+### 🏗️ Nested Stack — `templates/nested-stack.yaml`
+
+Stack raiz que orquestra todas as stacks acima via `AWS::CloudFormation::Stack`, referenciando templates armazenados em S3. Outputs consolidam os IDs das stacks filhas para rastreabilidade.
+
+---
+
+## 7. Estrutura do Projeto
+
+```
+stack-com-AWS-CloudFormation/
+│
+├── templates/
+│   ├── network-stack.yaml
+│   ├── firewall-stack.yaml
+│   ├── webserver-stack.yaml
+│   ├── storage-stack.yaml
+│   ├── iam-stack.yaml
+│   ├── monitoring-stack.yaml
+│   ├── sns-stack.yaml
+│   ├── loadbalancer-stack.yaml
+│   ├── autoscaling-stack.yaml
+│   ├── database-stack.yaml
+│   ├── nested-stack.yaml
+│   └── parameters.json
 │
 ├── docs/
 │   ├── 01-o-que-e-cloudformation.md
@@ -204,329 +229,155 @@ stack-com-AWS-CloudFormation
 │   ├── 14-boas-praticas-cloudformation.md
 │   └── 15-insights-e-aprendizados.md
 │
-├── templates/
-│   ├── network-stack.yaml
-│   ├── firewall-stack.yaml
-│   ├── webserver-stack.yaml
-│   ├── storage-stack.yaml
-│   ├── iam-stack.yaml
-│   ├── monitoring-stack.yaml
-│   ├── sns-stack.yaml
-│   ├── loadbalancer-stack.yaml
-│   ├── autoscaling-stack.yaml
-│   ├── database-stack.yaml
-│   ├── nested-stack.yaml
-│   └── parameters.json
-│
 ├── examples/
 │   ├── deploy-cli.md
 │   ├── deploy-console.md
 │   └── delete-stack.md
 │
 └── README.md
-
 ```
-
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## 8. Como Executar
 
-### Cloud
+### Pré-requisitos
 
-- AWS CloudFormation
-- Amazon EC2
-- Amazon VPC
-- Amazon S3
-- IAM
-- CloudWatch
-- SNS
-- RDS
-- Auto Scaling
-- Elastic Load Balancer
-
-## Infraestrutura
-
-- YAML
-- Infrastructure as Code (IaC)
-
-## Versionamento
-
+- Conta AWS ativa com permissões para CloudFormation, EC2, S3, IAM, RDS, CloudWatch, SNS
+- AWS CLI instalada e configurada (`aws configure`)
 - Git
-- GitHub
 
----
+### Validar template antes do deploy
 
-## 🚀 Templates Desenvolvidos
-
-### Network Stack
-
-Responsável por:
-
-- VPC
-- Subnets
-- Internet Gateway
-- Route Tables
-
----
-
-### Firewall Stack
-
-Responsável por:
-
-- Security Groups
-- Regras HTTP
-- Regras SSH
-
----
-
-### Web Server Stack
-
-Responsável por:
-
-- EC2
-- Apache HTTP Server
-- User Data
-
----
-
-### Storage Stack
-
-Responsável por:
-
-- Buckets S3
-- Versionamento
-- Criptografia
-
----
-
-### IAM Stack
-
-Responsável por:
-
-- Roles
-- Policies
-- Governança
-
----
-
-### Monitoring Stack
-
-Responsável por:
-
-- CloudWatch
-- Alarmes
-- Métricas
-
----
-
-### SNS Stack
-
-Responsável por:
-
-- Notificações
-- Alertas operacionais
-
----
-
-### Load Balancer Stack
-
-Responsável por:
-
-- Application Load Balancer
-- Distribuição de tráfego
-
----
-
-### Auto Scaling Stack
-
-Responsável por:
-
-- Escalabilidade automática
-- Alta disponibilidade
-
----
-
-### Database Stack
-
-Responsável por:
-
-- Amazon RDS
-- Persistência de dados
-
----
-
-### Nested Stack
-
-Responsável por:
-
-- Orquestração de múltiplos templates
-
----
-
-## 🚀 Como Executar
-
-Validar Template
-
-
-```
-
+```bash
 aws cloudformation validate-template \
---template-body file://templates/webserver-stack.yaml
-
+  --template-body file://templates/webserver-stack.yaml
 ```
 
+### Criar stack individual
 
----
-
-## Criar Stack
-
-```
-
+```bash
 aws cloudformation create-stack \
---stack-name WebServerStack \
---template-body file://templates/webserver-stack.yaml \
---parameters file://templates/parameters.json
-
+  --stack-name WebServerStack \
+  --template-body file://templates/webserver-stack.yaml \
+  --parameters file://templates/parameters.json \
+  --capabilities CAPABILITY_NAMED_IAM
 ```
 
----
+### Monitorar eventos em tempo real
 
-## Monitorar
-
-```
-
+```bash
 aws cloudformation describe-stack-events \
---stack-name WebServerStack
-
+  --stack-name WebServerStack \
+  --query "StackEvents[*].[ResourceStatus,ResourceType,LogicalResourceId]" \
+  --output table
 ```
 
----
+### Obter outputs após criação
 
-## Excluir Stack
-
+```bash
+aws cloudformation describe-stacks \
+  --stack-name WebServerStack \
+  --query "Stacks[0].Outputs"
 ```
 
+### Atualizar stack existente
+
+```bash
+aws cloudformation update-stack \
+  --stack-name WebServerStack \
+  --template-body file://templates/webserver-stack.yaml \
+  --parameters file://templates/parameters.json \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+### Remover stack (cleanup de custos)
+
+```bash
 aws cloudformation delete-stack \
---stack-name WebServerStack
-
+  --stack-name WebServerStack
 ```
 
----
-
-## 💡 Principais Insights
-
-Durante o desenvolvimento deste projeto ficou evidente que:
-
-### Infraestrutura é Software
-
-Infraestrutura moderna deve ser:
-
-- versionada;
-- documentada;
-- auditável;
-- reproduzível.
+> ⚠️ Buckets S3 com objetos não são removidos automaticamente. Esvazie o bucket antes de excluir a Storage Stack.
 
 ---
 
-### Automação reduz erros
+## 9. Decisões Técnicas e Trade-offs
 
-Toda configuração manual é candidata a erro.
-
-CloudFormation transforma processos manuais em processos previsíveis.
-
----
-
-### Segurança deve nascer no template
-
-Boas práticas de IAM e Security Groups devem ser aplicadas desde o início.
-
----
-
-### Modularização facilita manutenção
-
-Separar recursos em múltiplas stacks torna a arquitetura mais sustentável.
+| Decisão | Alternativa Considerada | Motivo da Escolha |
+|---|---|---|
+| CloudFormation nativo | Terraform | Integração nativa com serviços AWS, sem state file externo, menor surface de ataque |
+| YAML em vez de JSON | JSON | Legibilidade superior, suporte a comentários, padrão de mercado para CloudFormation |
+| Nested Stacks | Template único monolítico | Separação de responsabilidades, manutenção por domínio, escalabilidade corporativa |
+| AMI via SSM Parameter | AMI ID hardcoded | AMI sempre atualizada, elimina risco de deploy em imagem com CVEs conhecidos |
+| IAM Role em vez de Access Keys | Access Keys estáticas | Credenciais temporárias rotacionadas pela AWS, sem risco de vazamento |
+| `PubliclyAccessible: false` no RDS | Acesso público para teste | Segurança desde o template; banco de dados nunca deve ter acesso público direto |
+| Launch Template no ASG | Launch Configuration | Launch Configuration está deprecated; Templates suportam versionamento nativo |
+| `TreatMissingData: notBreaching` | `missing` (default) | Evita alertas falsos durante manutenção planejada ou reinicialização de instâncias |
 
 ---
 
-## 📈 Resultados Obtidos
+## 10. Insights da Análise
 
-Ao final deste laboratório foi possível:
+**Infraestrutura é software — e deve ser tratada como tal.**
 
-✅ Criar múltiplas stacks AWS
+A maior descoberta deste projeto não foi técnica. Foi conceitual: os mesmos princípios que tornam código de aplicação confiável — versionamento, revisão, testes, documentação — se aplicam integralmente à infraestrutura. CloudFormation não é uma ferramenta de automação. É uma disciplina de engenharia.
 
-✅ Automatizar provisionamento
+**Segurança não é uma camada — é um atributo do template.**
 
-✅ Aplicar Infraestrutura como Código
+Configurar `StorageEncrypted: true`, `BlockPublicAcls: true` e IAM Roles com menor privilégio desde a criação do template elimina toda uma classe de vulnerabilidades que surgem quando segurança é tratada como etapa posterior ao provisionamento.
 
-✅ Estruturar templates reutilizáveis
+**Rollback automático muda a cultura de deploy.**
 
-✅ Implementar monitoramento
+Em ambientes sem IaC, uma falha durante o provisionamento frequentemente deixa recursos órfãos e ambientes parcialmente criados. O CloudFormation reverte automaticamente para o estado anterior em caso de falha, tornando deploys atômicos — ou funcionam completamente, ou não funcionam.
 
-✅ Aplicar princípios de segurança
+**Modularização não é burocracia — é governança.**
 
-✅ Utilizar versionamento profissional
-
-✅ Construir documentação completa
+Separar a infraestrutura em stacks por domínio (rede, segurança, dados, computação) replica a estrutura de times de organizações maduras. Cada equipe é dona de seu template, pode evoluí-lo independentemente e o impacto de cada mudança fica isolado.
 
 ---
 
-## 🎓 Aprendizados
+## 11. Resultados Obtidos
 
-Os principais aprendizados foram:
+Ao final do projeto foi possível:
 
-- funcionamento interno do CloudFormation;
-- relacionamento entre recursos;
-- gerenciamento de dependências;
-- monitoramento de eventos;
-- tratamento de falhas;
-- organização de templates corporativos;
-- boas práticas de arquitetura AWS.
-
----
-
-## 🔮 Próximos Passos
-
-Evoluções futuras deste projeto:
-
-- CI/CD com GitHub Actions
-- CloudFormation StackSets
-- Multi-Region Deploy
-- AWS Config
-- Security Hub
-- AWS Organizations
-- Integração com Terraform para estudos comparativos
+- Provisionar **arquitetura AWS completa** com 11 componentes interdependentes via código
+- Eliminar **100% do provisionamento manual** — nenhum recurso foi criado pelo Console
+- Demonstrar **rollback automático** em cenários de falha controlada
+- Implementar **segurança por design**: criptografia, menor privilégio e bloqueio público configurados no template
+- Criar **infraestrutura reproduzível** em qualquer conta AWS a partir de um único comando
+- Estruturar **documentação técnica** em 15 documentos cobrindo fundamentos, troubleshooting e boas práticas
 
 ---
 
-## 🏆 Conclusão
+## 12. Próximos Passos
 
-Este projeto demonstrou como o AWS CloudFormation permite transformar infraestrutura em código, reduzindo erros operacionais e aumentando a produtividade das equipes.
+**Automação e CI/CD**
+- Pipeline com GitHub Actions para validação e deploy automatizado de templates
+- CloudFormation StackSets para deploy multi-conta e multi-região
 
-Mais do que aprender comandos ou templates YAML, o principal aprendizado foi compreender uma mudança de mentalidade:
+**Observabilidade avançada**
+- Drift Detection para identificar alterações manuais fora do CloudFormation
+- AWS Config Rules para conformidade contínua
+- Security Hub integrado para postura de segurança centralizada
 
-«Infraestrutura moderna não é criada manualmente.
-
-Infraestrutura moderna é projetada, versionada, automatizada e tratada como software.»
-
-Essa é uma das competências mais valorizadas atualmente para profissionais de Cloud, DevOps, Platform Engineering e Arquitetura de Soluções.
+**Maturidade de infraestrutura**
+- Change Sets obrigatórios antes de qualquer atualização em produção
+- AWS Organizations com Service Control Policies (SCPs)
+- Estudo comparativo com Terraform e AWS CDK
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
-Sérgio Luiz dos Santos
-
-Tecnologia da Informação | Cloud Computing | Infraestrutura | Dados | Inteligência Artificial
-
+**Sérgio Luiz dos Santos**  
+Systems Analyst · Cloud & AI Solutions Specialist · DIO Campus Expert  
+15+ anos em ambientes mission-critical — Banco Bradesco S.A.
 
 [![Portfólio](https://img.shields.io/badge/Portfólio-Sérgio_Santos-111827?style=for-the-badge&logo=githubpages&logoColor=00eaff)](https://portfoliosantossergio.vercel.app)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Sérgio_Santos-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santossergioluiz)
 
 ---
 
-
-
-Projeto desenvolvido como parte da formação AWS Cloud Foundations e estudos práticos de AWS CloudFormation.
-
-
+*Projeto desenvolvido como parte da Formação AWS Cloud Foundations — DIO.*  
+*Infraestrutura moderna não é criada manualmente. Ela é projetada, versionada, automatizada e tratada como software.*
